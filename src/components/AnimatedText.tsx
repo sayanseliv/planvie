@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Animated, TextStyle } from 'react-native';
-import { useThemeContext } from '../themes';
-import { lightTheme, darkTheme } from '../themes';
+import { useAnimatedColors } from '../hooks';
 
 interface Props {
   style?: TextStyle;
@@ -9,12 +8,7 @@ interface Props {
 }
 
 export const AnimatedText: React.FC<Props> = ({ style, children }) => {
-  const { animatedValue } = useThemeContext();
-
-  const animatedTextColor = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [lightTheme.colors.text, darkTheme.colors.text],
-  });
+  const { animatedTextColor } = useAnimatedColors();
 
   return (
     <Animated.Text style={[{ color: animatedTextColor }, style]}>

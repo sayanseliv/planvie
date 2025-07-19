@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Animated, ViewStyle } from 'react-native';
-import { useThemeContext } from '../themes';
-import { lightTheme, darkTheme } from '../themes';
+import { useAnimatedColors } from '../hooks';
 
 interface Props {
   style?: ViewStyle;
@@ -9,12 +8,7 @@ interface Props {
 }
 
 export const AnimatedContainer: React.FC<Props> = ({ style, children }) => {
-  const { animatedValue } = useThemeContext();
-
-  const animatedBackgroundColor = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [lightTheme.colors.background, darkTheme.colors.background],
-  });
+  const { animatedBackgroundColor } = useAnimatedColors();
 
   return (
     <Animated.View

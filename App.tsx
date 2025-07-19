@@ -6,21 +6,16 @@
  */
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ScreenHome from './src/screens/ScreenHome';
 import { ThemeProvider } from './src/themes';
 import { AnimatedNavigationContainer } from './src/components';
-
-const Stack = createNativeStackNavigator();
+import { AppNavigator } from './src/navigation';
 
 const AppInner = () => {
   return (
     <AnimatedNavigationContainer>
       <StatusBar hidden={true} />
       <View style={styles.container}>
-        <Stack.Navigator initialRouteName='Home'>
-          <Stack.Screen name='Home' component={ScreenHome} />
-        </Stack.Navigator>
+        <AppNavigator />
       </View>
     </AnimatedNavigationContainer>
   );
