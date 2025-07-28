@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Animated, TextStyle } from 'react-native';
-import { useAnimatedColors } from '../hooks';
+import { useAnimatedColors } from '../../hooks';
 
 interface Props {
   style?: TextStyle;

@@ -7,7 +7,8 @@ const darkTheme = {
     surface: '#1c1c1e',
     text: '#ffffff',
     textSecondary: '#a1a1a1',
-    border: '#38383a',
+    border: '#ffffff',
+    placeholder: '#a1a1a1',
     notification: '#ff453a',
   },
   fonts: {

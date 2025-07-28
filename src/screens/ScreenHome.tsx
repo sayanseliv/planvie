@@ -3,14 +3,32 @@ import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { AnimatedContainer, AnimatedText } from '../components';
 
 const ScreenHome = () => {
-  const upcomingTasks = [
-    { id: 1, title: 'Демо клиенту', due: 'Сегодня 16:00' },
-    { id: 2, title: 'Исправить баг в логине', due: 'Завтра' },
+  const tasks = [
+    {
+      id: '1',
+      title: 'Сделать бэкап',
+      tags: ['t1', 't2'],
+      projectId: null,
+      createdAt: '2025-07-19',
+      estimate: '1h',
+    },
+    {
+      id: '2',
+      title: 'Верстка лендинга',
+      tags: ['t5', 't6'],
+      projectId: 'p1',
+      createdAt: '2025-07-18',
+      estimate: '2h',
+    },
   ];
-
-  const recentProjects = [
-    { id: 'p1', name: 'Redesign Landing', tasksCount: 5 },
-    { id: 'p2', name: 'CRM система', tasksCount: 12 },
+  const projects = [
+    {
+      id: 'p1',
+      taskIds: ['1', '2'],
+      title: 'Сайт для клиента',
+      description: '',
+      createdAt: '2025-07-10',
+    },
   ];
 
   return (
@@ -21,20 +39,22 @@ const ScreenHome = () => {
         <AnimatedText style={styles.sectionTitle}>
           🔔 Ближайшие задачи
         </AnimatedText>
-        {upcomingTasks.map(task => (
+        {tasks.map(task => (
           <View key={task.id} style={styles.card}>
             <Text style={styles.cardTitle}>{task.title}</Text>
-            <Text style={styles.cardSubtitle}>{task.due}</Text>
+            <Text style={styles.cardSubtitle}>{task.estimate}</Text>
           </View>
         ))}
 
         <AnimatedText style={styles.sectionTitle}>
           📁 Последние проекты
         </AnimatedText>
-        {recentProjects.map(project => (
+        {projects.map(project => (
           <View key={project.id} style={styles.card}>
-            <Text style={styles.cardTitle}>{project.name}</Text>
-            <Text style={styles.cardSubtitle}>{project.tasksCount} задач</Text>
+            <Text style={styles.cardTitle}>{project.title}</Text>
+            <Text style={styles.cardSubtitle}>
+              {project.taskIds.length} задач
+            </Text>
           </View>
         ))}
       </AnimatedContainer>

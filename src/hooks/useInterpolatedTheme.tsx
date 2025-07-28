@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Theme } from '@react-navigation/native';
 import { useThemeContext } from '../themes';
 import { lightTheme, darkTheme } from '../themes';
+import { ExtendedTheme, CustomThemeColors } from '../types/theme';
 
 const interpolateColor = (
   color1: string,
@@ -27,12 +27,12 @@ const interpolateColor = (
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-const createInterpolatedTheme = (value: number): Theme => {
-  const interpolatedColors: any = {};
+const createInterpolatedTheme = (value: number): ExtendedTheme => {
+  const interpolatedColors: Partial<CustomThemeColors> = {};
 
-  // All colors from the theme are automatically interpolated
   Object.keys(lightTheme.colors).forEach(colorKey => {
-    interpolatedColors[colorKey] = interpolateColor(
+    const key = colorKey as keyof CustomThemeColors;
+    interpolatedColors[key] = interpolateColor(
       (lightTheme.colors as any)[colorKey],
       (darkTheme.colors as any)[colorKey],
       value,
@@ -41,14 +41,16 @@ const createInterpolatedTheme = (value: number): Theme => {
 
   return {
     dark: value > 0.5,
-    colors: interpolatedColors,
+    colors: interpolatedColors as CustomThemeColors,
     fonts: lightTheme.fonts,
   };
 };
 
-export const useInterpolatedTheme = () => {
+export const useInterpolatedTheme = (): ExtendedTheme => {
   const { animatedValue, isDark } = useThemeContext();
-  const [interpolatedTheme, setInterpolatedTheme] = useState<Theme>(lightTheme);
+  const [interpolatedTheme, setInterpolatedTheme] = useState<ExtendedTheme>(
+    lightTheme as ExtendedTheme,
+  );
 
   useEffect(() => {
     const listenerId = animatedValue.addListener(({ value }) => {
@@ -56,7 +58,6 @@ export const useInterpolatedTheme = () => {
       setInterpolatedTheme(theme);
     });
 
-    // Set initial Theme
     const initialValue = isDark ? 1 : 0;
     const initialTheme = createInterpolatedTheme(initialValue);
     setInterpolatedTheme(initialTheme);

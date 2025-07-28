@@ -7,8 +7,9 @@
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { ThemeProvider } from './src/themes';
-import { AnimatedNavigationContainer } from './src/components';
+import { AnimatedNavigationContainer } from './src/components/animated/AnimatedNavigationContainer';
 import { AppNavigator } from './src/navigation';
+import { AuthProvider } from './src/context/AuthContext';
 
 const AppInner = () => {
   return (
@@ -24,7 +25,9 @@ const AppInner = () => {
 export default function App() {
   return (
     <ThemeProvider>
-      <AppInner />
+      <AuthProvider>
+        <AppInner />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

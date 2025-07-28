@@ -7,7 +7,8 @@ const lightTheme = {
     surface: '#f9f9f9',
     text: '#000000',
     textSecondary: '#8e8e93',
-    border: '#c7c7cc',
+    border: '#000000',
+    placeholder: '#1c1c1e',
     notification: '#ff3b30',
   },
   fonts: {

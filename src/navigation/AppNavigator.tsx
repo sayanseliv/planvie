@@ -5,7 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ScreenHome from '../screens/ScreenHome';
 import ScreenAddTask from '../screens/ScreenAddTask';
+import ScreenTest from '../screens/ScreenTest';
+import ScreenAuth from '../screens/ScreenAuth';
 import { useInterpolatedTheme, useTheme } from '../hooks';
+import { ExtendedTheme } from '../types/theme';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,17 +22,23 @@ const HomeIcon = ({ color, size }: { color: string; size: number }) => (
 const AddTaskIcon = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='add-circle-outline' size={size} color={color} />
 );
-
+const AddTestIcon = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name='desktop-outline' size={size} color={color} />
+);
+const AddAuth = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name='enter-outline' size={size} color={color} />
+);
 const ThemeIconLight = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='sunny-outline' size={size} color={color} />
 );
+
 const ThemeIconDark = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='moon-outline' size={size} color={color} />
 );
 
 // Bottom Tab Navigator
-const BottomTabNavigator = () => {
-  const theme = useInterpolatedTheme();
+const BottomTabNavigator: React.FC = () => {
+  const theme: ExtendedTheme = useInterpolatedTheme();
   const { toggleTheme, isTransitioning } = useTheme();
   const [tabBarStyle, setTabBarStyle] = useState({});
 
@@ -38,6 +47,8 @@ const BottomTabNavigator = () => {
       backgroundColor: theme.colors.surface,
       borderTopWidth: 1,
       borderTopColor: theme.colors.border,
+      paddingBottom: 20,
+      paddingTop: 10,
     });
   }, [theme]);
 
@@ -47,9 +58,10 @@ const BottomTabNavigator = () => {
         headerShown: true,
         tabBarStyle,
         tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textSecondary,
+        tabBarInactiveTintColor: theme.colors.textSecondary, // И про textSecondary!
         tabBarLabelStyle: {
           color: theme.colors.text,
+          fontSize: 12,
         },
       }}
       screenListeners={({ route }) => ({
@@ -64,7 +76,7 @@ const BottomTabNavigator = () => {
         name='Home'
         component={ScreenHome}
         options={{
-          tabBarLabel: 'Главная',
+          tabBarLabel: 'Home',
           tabBarIcon: HomeIcon,
         }}
       />
@@ -72,8 +84,24 @@ const BottomTabNavigator = () => {
         name='AddTask'
         component={ScreenAddTask}
         options={{
-          tabBarLabel: 'Добавить',
+          tabBarLabel: 'Add',
           tabBarIcon: AddTaskIcon,
+        }}
+      />
+      <Tab.Screen
+        name='Test'
+        component={ScreenTest}
+        options={{
+          tabBarLabel: 'Test',
+          tabBarIcon: AddTestIcon,
+        }}
+      />
+      <Tab.Screen
+        name='Auth'
+        component={ScreenAuth}
+        options={{
+          tabBarLabel: 'Authentification',
+          tabBarIcon: AddAuth,
         }}
       />
       <Tab.Screen
@@ -89,7 +117,7 @@ const BottomTabNavigator = () => {
 };
 
 // Main Stack Navigator
-const AppNavigator = () => {
+const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator
       initialRouteName='MainTabs'

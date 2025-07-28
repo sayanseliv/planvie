@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { useInterpolatedTheme } from '../hooks/useInterpolatedTheme';
+import { useInterpolatedTheme } from '../../hooks/useInterpolatedTheme';
 
 interface Props {
   children: ReactNode;

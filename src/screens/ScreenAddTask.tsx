@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Pressable, ScrollView, View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { AnimatedContainer, AnimatedText } from '../components';
-import { useTheme } from '../hooks';
 
 const ScreenAddTask = () => {
   return (
