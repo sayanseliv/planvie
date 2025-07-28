@@ -1,4 +1,5 @@
-const lightTheme = {
+import type { ExtendedTheme } from '../types/theme';
+const lightTheme: ExtendedTheme = {
   dark: false,
   colors: {
     primary: '#007AFF',

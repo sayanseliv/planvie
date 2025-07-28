@@ -58,7 +58,7 @@ const BottomTabNavigator: React.FC = () => {
         headerShown: true,
         tabBarStyle,
         tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textSecondary, // И про textSecondary!
+        tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarLabelStyle: {
           color: theme.colors.text,
           fontSize: 12,

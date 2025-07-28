@@ -6,13 +6,13 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { Theme } from '@react-navigation/native';
 import { Animated } from 'react-native';
 import lightTheme from './light';
 import darkTheme from './dark';
+import { ExtendedTheme } from '../types/theme';
 
 interface ThemeContextType {
-  theme: Theme;
+  theme: ExtendedTheme;
   toggleTheme: () => void;
   isDark: boolean;
   animatedValue: Animated.Value;
