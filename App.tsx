@@ -6,19 +6,23 @@
  */
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { ThemeProvider } from './src/themes';
-import { AnimatedNavigationContainer } from './src/components/animated/AnimatedNavigationContainer';
+import { ThemeProvider, useThemeContext } from './src/themes';
 import { AppNavigator } from './src/navigation';
 import { AuthProvider } from './src/context/AuthContext';
 
 const AppInner = () => {
+  const { theme } = useThemeContext();
   return (
-    <AnimatedNavigationContainer>
+    <>
       <StatusBar hidden={true} />
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: theme.colors.background },
+        ]}>
         <AppNavigator />
       </View>
-    </AnimatedNavigationContainer>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
-import { AnimatedContainer, AnimatedText } from '../components';
+import { useThemeContext } from '../themes';
 
 const ScreenHome = () => {
   const tasks = [
@@ -21,6 +21,7 @@ const ScreenHome = () => {
       estimate: '2h',
     },
   ];
+
   const projects = [
     {
       id: 'p1',
@@ -31,33 +32,71 @@ const ScreenHome = () => {
     },
   ];
 
-  return (
-    <ScrollView>
-      <AnimatedContainer style={styles.container}>
-        <AnimatedText style={styles.greeting}>Привет, Eugen 👋</AnimatedText>
+  const { theme } = useThemeContext();
 
-        <AnimatedText style={styles.sectionTitle}>
+  return (
+    <ScrollView style={{ backgroundColor: theme.colors.background }}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: theme.colors.background },
+        ]}>
+        <Text style={[styles.greeting, { color: theme.colors.text }]}>
+          Привет, Eugen 👋
+        </Text>
+
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
           🔔 Ближайшие задачи
-        </AnimatedText>
+        </Text>
         {tasks.map(task => (
-          <View key={task.id} style={styles.card}>
-            <Text style={styles.cardTitle}>{task.title}</Text>
-            <Text style={styles.cardSubtitle}>{task.estimate}</Text>
+          <View
+            key={task.id}
+            style={[
+              styles.card,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: theme.colors.border,
+              },
+            ]}>
+            <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
+              {task.title}
+            </Text>
+            <Text
+              style={[
+                styles.cardSubtitle,
+                { color: theme.colors.textSecondary },
+              ]}>
+              {task.estimate}
+            </Text>
           </View>
         ))}
 
-        <AnimatedText style={styles.sectionTitle}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
           📁 Последние проекты
-        </AnimatedText>
+        </Text>
         {projects.map(project => (
-          <View key={project.id} style={styles.card}>
-            <Text style={styles.cardTitle}>{project.title}</Text>
-            <Text style={styles.cardSubtitle}>
+          <View
+            key={project.id}
+            style={[
+              styles.card,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: theme.colors.border,
+              },
+            ]}>
+            <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
+              {project.title}
+            </Text>
+            <Text
+              style={[
+                styles.cardSubtitle,
+                { color: theme.colors.textSecondary },
+              ]}>
               {project.taskIds.length} задач
             </Text>
           </View>
         ))}
-      </AnimatedContainer>
+      </View>
     </ScrollView>
   );
 };
@@ -85,10 +124,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   card: {
-    backgroundColor: '#f4f4f4',
     borderRadius: 8,
     padding: 12,
     marginBottom: 10,
+    borderWidth: 1, // Добавил для лучшего отображения в темной теме
   },
   cardTitle: {
     fontSize: 16,
@@ -96,7 +135,6 @@ const styles = StyleSheet.create({
   },
   cardSubtitle: {
     fontSize: 14,
-    color: '#555',
   },
   btn: {
     alignSelf: 'flex-start',

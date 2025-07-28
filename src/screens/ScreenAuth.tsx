@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import SignInForm from '../components/SignInForm';
-import { AnimatedText } from '../components';
 import { AuthStorage } from '../storage/authStorage';
+import { useThemeContext } from '../themes';
 
 const ScreenAuth = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const loggedIn = AuthStorage.isLoggedIn();
   const storedUser = AuthStorage.getUser();
+  const { theme } = useThemeContext();
 
   return (
     <View style={styles.wrapper}>
       {loggedIn && storedUser.id && (
-        <AnimatedText>Hello {storedUser.username}</AnimatedText>
+        <Text style={{ color: theme.colors.text }}>
+          Hello {storedUser.username}
+        </Text>
       )}
       <View style={styles.container}>
         <TouchableOpacity onPress={() => setIsSignIn(true)}>

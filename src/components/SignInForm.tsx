@@ -2,14 +2,13 @@ import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { AnimatedText } from './animated/AnimatedText';
-import { useTheme } from '../hooks';
+import { useThemeContext } from '../themes';
 
 const SignInForm = () => {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { colors } = useTheme();
+  const { theme } = useThemeContext();
 
   const onSubmit = () => {
     if (username.length > 0) {
@@ -22,16 +21,20 @@ const SignInForm = () => {
 
   return (
     <View>
-      <AnimatedText>Sign In</AnimatedText>
+      <Text style={[styles.title, { color: theme.colors.text }]}>Sign In</Text>
       <TextInput
         placeholder='Username'
         onChangeText={setUsername}
         value={username}
         style={[
           styles.input,
-          { borderColor: colors.border, color: colors.text },
+          {
+            borderColor: theme.colors.border,
+            color: theme.colors.text,
+            backgroundColor: theme.colors.card,
+          },
         ]}
-        placeholderTextColor={colors.placeholder}
+        placeholderTextColor={theme.colors.placeholder}
       />
       <TextInput
         placeholder='Password'
@@ -40,19 +43,36 @@ const SignInForm = () => {
         secureTextEntry
         style={[
           styles.input,
-          { borderColor: colors.border, color: colors.text },
+          {
+            borderColor: theme.colors.border,
+            color: theme.colors.text,
+            backgroundColor: theme.colors.card,
+          },
         ]}
-        placeholderTextColor={colors.placeholder}
+        placeholderTextColor={theme.colors.placeholder}
       />
       <TouchableOpacity
         onPress={onSubmit}
-        style={[styles.btn, { borderColor: colors.primary }]}>
-        <Text style={{ color: colors.primary }}>Sign In</Text>
+        style={[
+          styles.btn,
+          {
+            borderColor: theme.colors.primary,
+            backgroundColor: theme.colors.card,
+          },
+        ]}>
+        <Text style={{ color: theme.colors.primary }}>Sign In</Text>
       </TouchableOpacity>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
   input: {
     height: 40,
     marginBlock: 12,
@@ -67,7 +87,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 6,
     borderWidth: 1,
-    backgroundColor: '#ffffff',
   },
 });
+
 export default SignInForm;

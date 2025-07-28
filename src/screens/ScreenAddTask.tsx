@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { AnimatedContainer, AnimatedText } from '../components';
+import { StyleSheet, View, Text } from 'react-native';
+import { useThemeContext } from '../themes';
 
 const ScreenAddTask = () => {
+  const { theme } = useThemeContext();
   return (
-    <AnimatedContainer style={styles.container}>
-      <AnimatedText>ScreenAddTask</AnimatedText>
-    </AnimatedContainer>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <Text style={{ color: theme.colors.text }}>ScreenAddTask</Text>
+    </View>
   );
 };
 

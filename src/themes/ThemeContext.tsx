@@ -1,12 +1,7 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-  useRef,
-} from 'react';
-import { Animated } from 'react-native';
+// ThemeContext.tsx
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { useColorScheme } from 'react-native';
+import switchTheme from 'react-native-theme-switch-animation';
 import lightTheme from './light';
 import darkTheme from './dark';
 import { ExtendedTheme } from '../types/theme';
@@ -15,33 +10,25 @@ interface ThemeContextType {
   theme: ExtendedTheme;
   toggleTheme: () => void;
   isDark: boolean;
-  animatedValue: Animated.Value;
-  isTransitioning: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isDark, setIsDark] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const animatedValue = useRef(new Animated.Value(0)).current;
+  const colorScheme = useColorScheme();
+  const [isDark, setIsDark] = useState(colorScheme === 'dark');
 
   const toggleTheme = () => {
-    setIsTransitioning(true);
-
-    Animated.timing(animatedValue, {
-      toValue: isDark ? 0 : 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsDark(prev => !prev);
-      setIsTransitioning(false);
+    switchTheme({
+      switchThemeFunction: () => {
+        setIsDark(prev => !prev);
+      },
+      animationConfig: {
+        type: 'fade',
+        duration: 500,
+      },
     });
   };
-
-  useEffect(() => {
-    animatedValue.setValue(isDark ? 1 : 0);
-  }, [isDark, animatedValue]);
 
   const theme = isDark ? darkTheme : lightTheme;
 
@@ -51,8 +38,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         theme,
         toggleTheme,
         isDark,
-        animatedValue,
-        isTransitioning,
       }}>
       {children}
     </ThemeContext.Provider>
@@ -65,3 +50,4 @@ export const useThemeContext = () => {
     throw new Error('useThemeContext must be used within ThemeProvider');
   return context;
 };
+export const useTheme = useThemeContext;

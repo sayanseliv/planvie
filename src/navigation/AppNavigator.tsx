@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,8 +8,7 @@ import ScreenHome from '../screens/ScreenHome';
 import ScreenAddTask from '../screens/ScreenAddTask';
 import ScreenTest from '../screens/ScreenTest';
 import ScreenAuth from '../screens/ScreenAuth';
-import { useInterpolatedTheme, useTheme } from '../hooks';
-import { ExtendedTheme } from '../types/theme';
+import { useThemeContext } from '../themes';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,12 +22,15 @@ const HomeIcon = ({ color, size }: { color: string; size: number }) => (
 const AddTaskIcon = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='add-circle-outline' size={size} color={color} />
 );
+
 const AddTestIcon = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='desktop-outline' size={size} color={color} />
 );
+
 const AddAuth = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='enter-outline' size={size} color={color} />
 );
+
 const ThemeIconLight = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name='sunny-outline' size={size} color={color} />
 );
@@ -38,25 +41,19 @@ const ThemeIconDark = ({ color, size }: { color: string; size: number }) => (
 
 // Bottom Tab Navigator
 const BottomTabNavigator: React.FC = () => {
-  const theme: ExtendedTheme = useInterpolatedTheme();
-  const { toggleTheme, isTransitioning } = useTheme();
-  const [tabBarStyle, setTabBarStyle] = useState({});
-
-  useEffect(() => {
-    setTabBarStyle({
-      backgroundColor: theme.colors.surface,
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.border,
-      paddingBottom: 20,
-      paddingTop: 10,
-    });
-  }, [theme]);
+  const { theme, toggleTheme } = useThemeContext();
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
-        tabBarStyle,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopWidth: 1,
+          borderTopColor: theme.colors.border,
+          paddingBottom: 20,
+          paddingTop: 10,
+        },
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarLabelStyle: {
@@ -66,7 +63,7 @@ const BottomTabNavigator: React.FC = () => {
       }}
       screenListeners={({ route }) => ({
         tabPress: e => {
-          if (route.name === 'Theme' && !isTransitioning) {
+          if (route.name === 'Theme') {
             e.preventDefault();
             toggleTheme();
           }
@@ -118,14 +115,18 @@ const BottomTabNavigator: React.FC = () => {
 
 // Main Stack Navigator
 const AppNavigator: React.FC = () => {
+  const { theme } = useThemeContext();
+
   return (
-    <Stack.Navigator
-      initialRouteName='MainTabs'
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name='MainTabs' component={BottomTabNavigator} />
-    </Stack.Navigator>
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator
+        initialRouteName='MainTabs'
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name='MainTabs' component={BottomTabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
