@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ListRenderItem,
 } from 'react-native';
+import Accordion from '../components/Accordion';
 
 interface Company {
   readonly name: string;
@@ -138,7 +139,6 @@ const ScreenTest: React.FC = () => {
   useEffect(() => {
     fetchAuthors();
   }, [fetchAuthors]);
-
   const renderAuthors: ListRenderItem<Author> = useCallback(
     ({ item }) => (
       <View style={styles.card}>
@@ -156,24 +156,27 @@ const ScreenTest: React.FC = () => {
             {item.email} - {item.phone}
           </Text>
         </View>
-        <View style={styles.footer}>
-          <Text>Company info:</Text>
-          <Text style={styles.footerName}>Name: {item.company.name}</Text>
-          <Text style={styles.footerName}>
-            Phrases:{' '}
-            {item.company.catchPhrase
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(', ')}
-          </Text>
-          <Text style={styles.footerName}>
-            Labels:{' '}
-            {item.company.bs
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(', ')}
-          </Text>
-        </View>
+
+        <Accordion title='Show more'>
+          <View style={styles.footer}>
+            <Text>Company info:</Text>
+            <Text style={styles.footerName}>Name: {item.company.name}</Text>
+            <Text style={styles.footerName}>
+              Phrases:{' '}
+              {item.company.catchPhrase
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(', ')}
+            </Text>
+            <Text style={styles.footerName}>
+              Labels:{' '}
+              {item.company.bs
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(', ')}
+            </Text>
+          </View>
+        </Accordion>
       </View>
     ),
     [],
